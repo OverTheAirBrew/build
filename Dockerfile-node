@@ -34,3 +34,6 @@ RUN apt-get update && apt-get install -y docker-ce
 
 COPY ./octo /bin/octo
 RUN chmod +x /bin/octo
+
+COPY ./withversion /bin/withversion
+RUN chmod +x /bin/withversion
