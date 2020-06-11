@@ -16,7 +16,7 @@ else
 fi
 
 
-TEST=$@
-TEST="${TEST/VERSION/${VERSION}}"
+COMMAND=$@
+COMMAND="${TEST/VERSION/${VERSION}}"
 
-echo "$TEST"
+exec $COMMAND
