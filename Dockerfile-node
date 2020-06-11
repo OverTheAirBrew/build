@@ -31,3 +31,6 @@ RUN add-apt-repository \
     $(lsb_release -cs) \
     stable"
 RUN apt-get update && apt-get install -y docker-ce
+
+COPY ./octo /bin/octo
+RUN chmod +x /bin/octo

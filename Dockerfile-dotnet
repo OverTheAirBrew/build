@@ -30,3 +30,6 @@ RUN apt install -y mono-complete
 
 RUN dotnet tool install -g Cake.Tool --version 0.35.0
 ENV PATH="$PATH:/root/.dotnet/tools"
+
+COPY ./octo /bin/octo
+RUN chmod +x /bin/octo
