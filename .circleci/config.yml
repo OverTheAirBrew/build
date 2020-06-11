@@ -11,7 +11,6 @@ build_container: &build_container
     - run:
         name: Build And Push
         command: |
-          #!/bin/bash
           IFS=’,’ read -ra arr <<< "$VERSIONS"
           for i in "${arr[@]}"; do
               docker build --build-arg VERSION=${i} -t $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:${CODE_TYPE}${i}-latest ./${CODE_TYPE}/.
