@@ -7,7 +7,7 @@ build_container: &build_container
     - setup_remote_docker
     - run:
         name: Docker Login
-        command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        command: docker login --username $DOCKER_USER --password $DOCKER_PASS 
     - run:
         name: Build And Push
         command: |
