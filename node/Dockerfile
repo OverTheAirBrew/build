@@ -15,9 +15,14 @@ RUN apt-get update && \
 # Git Version
 RUN wget https://github.com/GitTools/GitVersion/releases/download/5.3.5/gitversion-debian.9-x64-5.3.5.tar.gz
 RUN tar -zxvf gitversion-debian.9-x64-5.3.5.tar.gz
-
 RUN mv ./gitversion /bin/gitversion 
 RUN chmod +x /bin/gitversion
+
+# Git Release
+RUN wget https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+RUN tar -zxvf ghr_v0.13.0_linux_amd64.tar.gz
+RUN mv ./ghr_v0.13.0_linux_amd64 /bin/ghr
+RUN chmod +x /bin/ghr
 
 # Docker
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - 
