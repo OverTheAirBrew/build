@@ -9,8 +9,7 @@ RUN apt-get update && \
     apt-transport-https \
     ca-certificates \
     curl \
-    software-properties-common \
-    gitversion
+    software-properties-common 
 
 # Docker
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - 
