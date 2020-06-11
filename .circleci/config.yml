@@ -19,19 +19,19 @@ jobs:
   build_node_12_images:
     <<: *build_container
     environment:
-      VERSIONS: "12"
+      VERSION: "12"
       CODE_TYPE: node
   
   build_node_13_images:
     <<: *build_container
     environment:
-      VERSIONS: "13"
+      VERSION: "13"
       CODE_TYPE: node
 
   build_dotnet_images:
     <<: *build_container
     environment:
-      VERSIONS: "3.1.100-bionic"
+      VERSION: "3.1.100-bionic"
       CODE_TYPE: dotnet
 
 workflows:
