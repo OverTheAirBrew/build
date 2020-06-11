@@ -1,9 +1,9 @@
 build_container: &build_container
   docker:
-    - image: circleci/node:latest
-  working_directory: ~/urban_build
+      - image: 'docker:17.05.0-ce-git'
+  working_directory: ~/thenerdybrewingco
   steps:
-    - checkout: { path: ~/urban_build }
+    - checkout: { path: ~/thenerdybrewingco }
     - setup_remote_docker
     - run:
         name: Docker Login
