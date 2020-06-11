@@ -11,8 +11,8 @@ build_container: &build_container
     - run:
         name: Build And Push
         command: |
-          docker build --build-arg VERSION=${VERSION} -t thenerdybrewingco/$CIRCLE_PROJECT_REPONAME:${CODE_TYPE}${VERSION}-latest ./${CODE_TYPE}/.
-          docker push thenerdybrewingco/$CIRCLE_PROJECT_REPONAME:${CODE_TYPE}${VERSION}-latest
+          docker build --build-arg VERSION=${VERSION} -t thenerdybrewingco/$CIRCLE_PROJECT_REPONAME:${CODE_TYPE}${VERSION} ./${CODE_TYPE}/.
+          docker push thenerdybrewingco/$CIRCLE_PROJECT_REPONAME:${CODE_TYPE}${VERSION}
 
 version: 2
 jobs:

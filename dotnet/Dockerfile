@@ -1,5 +1,5 @@
-ARG DOTNET_VERSION="3.1.100-bionic"
-FROM mcr.microsoft.com/dotnet/core/sdk:${DOTNET_VERSION}
+ARG VERSION="3.1.100-bionic"
+FROM mcr.microsoft.com/dotnet/core/sdk:${VERSION}
 
 RUN apt-get update
 RUN apt-get install -qq -y libcurl3
