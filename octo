@@ -5,18 +5,22 @@ BUILD_NUMBER=${BUILD_NO}
 APPLICATION_NAME=${CIRCLE_PROJECT_REPONAME}
 BASE_PATH="./deploy"
 BRANCH="${CIRCLE_BRANCH}"
+ENVIRONMENT=
 
 PUBLISH=false
 CREATE_RELEASE=false
+DEPLOY=false
 
 for i in "$@"; do
     case $1 in
         --publish) PUBLISH=true ;;
         --release) CREATE_RELEASE=true ;;
+        --deploy) DEPLOY=true ;;
         --buildno) BUILD_NUMBER="$2"; shift ;;
         --appname) APPLICATION_NAME="$2"; shift ;;
         --basepath) BASE_PATH="$2"; shift ;;
         --branch) BRANCH="$2"; shift;; 
+        --environment) ENVIRONMENT="$2"; shift;;
     esac
     shift
 done
@@ -29,6 +33,9 @@ CREDENTIALS="--server=${OCTOPUS_FULL_BASE} --apiKey=${OCTOPUS_API_KEY}"
 PACKAGE_COMMAND="--id=${APPLICATION_NAME} --format=zip --version=${BUILD_NUMBER} --overwrite"
 PUSH_COMMAND="--package=${APPLICATION_NAME}.${BUILD_NUMBER}.zip --replace-existing ${CREDENTIALS}"
 CREATE_RELEASE_COMMAND="--project=${APPLICATION_NAME} --version=${BUILD_NUMBER} --packageversion=${BUILD_NUMBER} --releasenotes=Branch:${BRANCH} ${CREDENTIALS}"
+DEPLOY_COMMAND="--project=${APPLICATION_NAME} --version=${BUILD_NUMBER} --deployTo=${ENVIRONMENT}"
+
+echo "${PUSH_COMMAND}"
 
 if $PUBLISH; then
     docker create -v /src --name data alpine:3.4 /bin/true
@@ -40,4 +47,8 @@ fi
 
 if $CREATE_RELEASE; then
     docker run --rm octopusdeploy/octo create-release ${CREATE_RELEASE_COMMAND}
+fi
+
+if $DEPLOY; then
+    docker run --rm octopusdeploy/octo deploy-release ${DEPLOY_COMMAND}
 fi
