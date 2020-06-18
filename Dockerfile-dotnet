@@ -17,6 +17,11 @@ RUN add-apt-repository \
         $(lsb_release -cs) \
         stable"
 
+RUN curl -fSL -o ghr.tar.gz "https://github.com/tcnksm/ghr/releases/download/v${GHR_VERSION}/ghr_v${GHR_VERSION}_linux_amd64.tar.gz"
+RUN tar -xvzf ghr.tar.gz
+RUN mv ghr_v${GHR_VERSION}_linux_amd64/ghr /usr/local/bin
+RUN chown root:root /usr/local/bin/ghr
+
 RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 RUN apt-get clean
@@ -33,3 +38,10 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 
 COPY ./octo /bin/octo
 RUN chmod +x /bin/octo
+
+COPY ./withversion /bin/withversion
+RUN chmod +x /bin/withversion
+
+RUN rm -r \
+    ghr.tar.gz \
+    ghr_v0.9.0_linux_amd64
