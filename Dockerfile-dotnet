@@ -1,6 +1,8 @@
 ARG VERSION="3.1.100-bionic"
 FROM mcr.microsoft.com/dotnet/core/sdk:${VERSION}
 
+ENV GHR_VERSION="0.9.0"
+
 RUN apt-get update
 RUN apt-get install -qq -y libcurl3
 RUN apt-get install -y \
@@ -17,10 +19,21 @@ RUN add-apt-repository \
         $(lsb_release -cs) \
         stable"
 
+RUN curl -fSL -o ghr.tar.gz "https://github.com/tcnksm/ghr/releases/download/v${GHR_VERSION}/ghr_v${GHR_VERSION}_linux_amd64.tar.gz"
+RUN tar -xvzf ghr.tar.gz
+RUN mv ghr_v${GHR_VERSION}_linux_amd64/ghr /usr/local/bin
+RUN chown root:root /usr/local/bin/ghr
+
 RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 RUN apt-get clean
 RUN apt-get autoremove
+
+# Git Version
+RUN wget https://github.com/GitTools/GitVersion/releases/download/5.3.5/gitversion-debian.9-x64-5.3.5.tar.gz
+RUN tar -zxvf gitversion-debian.9-x64-5.3.5.tar.gz
+RUN mv ./gitversion /bin/gitversion 
+RUN chmod +x /bin/gitversion
 
 # MONO
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -33,3 +46,10 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 
 COPY ./octo /bin/octo
 RUN chmod +x /bin/octo
+
+COPY ./withversion /bin/withversion
+RUN chmod +x /bin/withversion
+
+RUN rm -r \
+    ghr.tar.gz \
+    ghr_v0.9.0_linux_amd64
