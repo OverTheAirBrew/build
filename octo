@@ -37,12 +37,17 @@ DEPLOY_COMMAND="--project=${APPLICATION_NAME} --version=${BUILD_NUMBER} --deploy
 
 echo "${PUSH_COMMAND}"
 
-if $PUBLISH; then
-    docker create -v /src --name data alpine:3.4 /bin/true
-    docker cp ${BASE_PATH} data:/src
+RANDOM_STRING=$(tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 32 | head -n 1)
+DATA_CONTAINER_NAME=octopus-data-${RANDOM_STRING}
 
-    docker run --rm --volumes-from data octopusdeploy/octo pack ${PACKAGE_COMMAND}
-    docker run --rm --volumes-from data octopusdeploy/octo push ${PUSH_COMMAND}
+if $PUBLISH; then
+    docker create -v /src --name ${DATA_CONTAINER_NAME} alpine:3.4 /bin/true
+    docker cp ${BASE_PATH} ${DATA_CONTAINER_NAME}:/src
+
+    docker run --rm --volumes-from ${DATA_CONTAINER_NAME} octopusdeploy/octo pack ${PACKAGE_COMMAND}
+    docker run --rm --volumes-from ${DATA_CONTAINER_NAME} octopusdeploy/octo push ${PUSH_COMMAND}
+
+    docker rm ${DATA_CONTAINER_NAME} --force
 fi
 
 if $CREATE_RELEASE; then
