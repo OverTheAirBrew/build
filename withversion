@@ -1,11 +1,7 @@
-#!/bin/bash -eo pipefail
-
 BRANCH=$(echo "$CIRCLE_BRANCH" | awk '{print tolower($0)}')
 VERSION=$(gitversion /showvariable NuGetVersion)
 
 COMMAND=$@
 COMMAND="${COMMAND/VERSION/${VERSION}}"
-
-echo "${COMMAND}"
 
 exec $COMMAND
