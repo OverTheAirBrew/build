@@ -1,5 +1,5 @@
 BRANCH=$(echo "$CIRCLE_BRANCH" | awk '{print tolower($0)}')
-VERSION=$(gitversion /showvariable NuGetVersion)
+VERSION=$(gitversion /showvariable FullSemVer)
 
 COMMAND=$@
 COMMAND="${COMMAND/x.x.x/${VERSION}}"
