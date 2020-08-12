@@ -1,4 +1,4 @@
-#!/bin/bash -eo pipefail
+
 
 BRANCH=$(echo "$CIRCLE_BRANCH" | awk '{print tolower($0)}')
 VERSION=
@@ -14,8 +14,6 @@ else
 fi
 
 COMMAND=$@
-COMMAND="${COMMAND/VERSION/${VERSION}}"
-
-echo "${COMMAND}"
+COMMAND="${COMMAND/x.x.x/${VERSION}}"
 
 exec $COMMAND
