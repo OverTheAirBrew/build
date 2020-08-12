@@ -2,6 +2,6 @@ BRANCH=$(echo "$CIRCLE_BRANCH" | awk '{print tolower($0)}')
 VERSION=$(gitversion /showvariable NuGetVersion)
 
 COMMAND=$@
-COMMAND="${COMMAND/VERSION/${VERSION}}"
+COMMAND="${COMMAND/x.x.x/${VERSION}}"
 
 exec $COMMAND
