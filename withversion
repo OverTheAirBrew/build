@@ -1,20 +1,11 @@
+#!/bin/bash -eo pipefail
 
 BRANCH=$(echo "$CIRCLE_BRANCH" | awk '{print tolower($0)}')
-VERSION=$(gitversion /showvariable SemVer)
-
-if [ "$BRANCH" == "master" ]; then
-    VERSION=$(gitversion /showvariable MajorMinorPatch)
-else
-   MajorMinor=$(gitversion /showvariable MajorMinorPatch)
-   BranchName=$(gitversion /showvariable BranchName)
-   BuildMeta=$(gitversion /showvariable BuildMetaDataPadded)
-   BranchName="${BranchName/_/\-}"
-
-   VERSION="${MajorMinor}-${BranchName}${BuildMeta}"
-fi
-
+VERSION=$(gitversion /showvariable NuGetVersion)
 
 COMMAND=$@
 COMMAND="${COMMAND/VERSION/${VERSION}}"
+
+echo "${COMMAND}"
 
 exec $COMMAND
