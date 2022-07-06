@@ -33,4 +33,4 @@ jobs:
           tags: overtheairbrew/build:node-${{ matrix.node-version }}
           file: Dockerfile.node
           build-args: |
-            VERSION: ${{ matrix.node-version }}
+            VERSION=${{ matrix.node-version }}
