@@ -20,5 +20,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build
         run: |
-          docker build --build-arg VERSION=${{ matrix.node-version }} -t overtheairbrew/build:node-${{ matrix.node-version }} .
+          docker build --build-arg VERSION=${{ matrix.node-version }} -f Dockerfile.node -t overtheairbrew/build:node-${{ matrix.node-version }} .
           docker push overtheairbrew/build:node-${{ matrix.node-version }}
