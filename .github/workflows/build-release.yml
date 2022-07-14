@@ -27,5 +27,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
-        run: |
-          docker buildx build --tag overtheairbrew/build:node-${{ matrix.node-version }} -f Dockerfile.node --build-arg VERSION=${{ matrix.node-version }} --platform=linux/amd64,linux/arm64,linux/arm/v7 --push .
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: overtheairbrew/build:node-${{ matrix.node-version }}
+          file: Dockerfile.node
+          build-args: |
+            VERSION=${{ matrix.node-version }}
